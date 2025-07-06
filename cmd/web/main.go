@@ -18,11 +18,12 @@ import (
 )
 
 type application struct {
+	formDecoder    *form.Decoder
 	logger         *slog.Logger
+	sessionManager *scs.SessionManager
 	snippets       *models.SnippetModel
 	templateCache  map[string]*template.Template
-	formDecoder    *form.Decoder
-	sessionManager *scs.SessionManager
+	users          *models.UserModel
 }
 
 func main() {
@@ -53,11 +54,12 @@ func main() {
 	sessionManager.Cookie.Secure = true
 
 	app := &application{
+		formDecoder:    formDecoder,
 		logger:         logger,
+		sessionManager: sessionManager,
 		snippets:       &models.SnippetModel{DB: db},
 		templateCache:  templateCache,
-		formDecoder:    formDecoder,
-		sessionManager: sessionManager,
+		users:          &models.UserModel{DB: db},
 	}
 
 	tlsConfig := &tls.Config{
