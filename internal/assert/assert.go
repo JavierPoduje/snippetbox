@@ -1,6 +1,9 @@
 package assert
 
-import "testing"
+import (
+	"strings"
+	"testing"
+)
 
 func Equal[T comparable](t *testing.T, actual, expected T) {
 	// This t.Helper() function that we’re using in the code above indicates to the Go test runner that our
@@ -11,5 +14,21 @@ func Equal[T comparable](t *testing.T, actual, expected T) {
 
 	if actual != expected {
 		t.Errorf("got: %v; want: %v", actual, expected)
+	}
+}
+
+func StringContains(t *testing.T, actual, expectedSubstring string) {
+	t.Helper()
+
+	if !strings.Contains(actual, expectedSubstring) {
+		t.Errorf("got: %q; expected to contain: %q", actual, expectedSubstring)
+	}
+}
+
+func NilError(t *testing.T, actual error) {
+	t.Helper()
+
+	if actual != nil {
+		t.Errorf("got: %v; expected: nil", actual)
 	}
 }

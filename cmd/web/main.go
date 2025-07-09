@@ -21,9 +21,9 @@ type application struct {
 	formDecoder    *form.Decoder
 	logger         *slog.Logger
 	sessionManager *scs.SessionManager
-	snippets       *models.SnippetModel
+	snippets       models.SnippetModelInterface
 	templateCache  map[string]*template.Template
-	users          *models.UserModel
+	users          models.UserModelInterface
 }
 
 func main() {
@@ -64,7 +64,7 @@ func main() {
 
 	tlsConfig := &tls.Config{
 		CurvePreferences: []tls.CurveID{tls.X25519, tls.CurveP256},
-		MinVersion: tls.VersionTLS13,
+		MinVersion:       tls.VersionTLS13,
 	}
 
 	srv := &http.Server{
